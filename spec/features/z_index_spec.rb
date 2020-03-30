@@ -12,7 +12,11 @@ describe "The home page" do
   it "has the title 'Rock-Paper-Scissors Rules' ", :points => 1 do
     visit "/"
 
-    expect(page).to have_title "Rock-Paper-Scissors Rules"
+    expect(page).to have_tag("html") do
+      with_tag("head") do
+        with_tag("title", :text => "Rock-Paper-Scissors Rules")
+      end
+    end
   end
 end
 

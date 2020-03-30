@@ -12,7 +12,11 @@ describe "/scissors" do
   it "has the title 'You played scissors!' ", :points => 1 do
     visit "/scissors"
 
-    expect(page).to have_title "You played scissors!"
+    expect(page).to have_tag("html") do
+      with_tag("head") do
+        with_tag("title", :text => "You played scissors!")
+      end
+    end
   end
 end
 
@@ -163,15 +167,15 @@ describe "/scissors" do
       with_tag("body") do
         with_tag("div:first-child") do
           with_tag("a", :count => 1 )
-          with_tag("a", :with => { :href => "/rock" }, :text => /Play Rock/)
+          with_tag("a", :with => { :href => "/rock" }, :seen => "Play Rock")
         end
         with_tag("div:nth-child(2)") do
           with_tag("a", :count => 1 )
-          with_tag("a", :with => { :href => "/paper" }, :text => /Play Paper/)
+          with_tag("a", :with => { :href => "/paper" }, :seen => "Play Paper")
         end
         with_tag("div:nth-child(3)") do
           with_tag("a", :count => 1 )
-          with_tag("a", :with => { :href => "/scissors" }, :text => /Play Scissors/)
+          with_tag("a", :with => { :href => "/scissors" }, :seen => "Play Scissors")
         end
         
         with_tag("div:nth-child(3) + h2", :seen => "We played scissors!")

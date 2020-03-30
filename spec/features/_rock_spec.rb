@@ -33,7 +33,11 @@ describe "/rock" do
   it "has the title 'You played rock!' ", :points => 1 do
     visit "/rock"
 
-    expect(page).to have_title "You played rock!"
+    expect(page).to have_tag("html") do
+      with_tag("head") do
+        with_tag("title", :text => "You played rock!")
+      end
+    end
   end
 end
 
