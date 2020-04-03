@@ -10,17 +10,17 @@ end
 
 
 describe "/rock" do
-  it "has the DOCTYPE declaration at the top of the page.", :points => 1 do
+  it "has the DOCTYPE declaration as the first line of the page.", :points => 1 do
     visit "/rock"
     
     first_line = page.html.strip.downcase.first(15)
-    doctype = "<!doctype html>"
-    expect(first_line.include?(doctype) ).to be true
+    expect(first_line).to match(/<!doctype html>/i),
+      "Expected the first line of the HTML file to contain a doctype declaration. Found: #{first_line}"
   end
 end
 
 describe "/rock" do
-  it "has a meta tag that increases the types of characters we can use.", :points => 1 do
+  it "has a meta tag in the head of the page that increases the types of characters we can use.", :points => 1 do
     visit "/rock"
     
     expect(page).to have_tag("html") do
@@ -37,7 +37,7 @@ describe "/rock" do
 
     expect(page).to have_tag("html") do
       with_tag("head") do
-        with_tag("title", :text => "You played rock!")
+        with_tag("title", :text => /You played rock/i)
       end
     end
   end
@@ -63,7 +63,7 @@ describe "/rock" do
   it "has at least three links", :points => 3 do
     visit "/rock"
     
-    expect(page).to have_tag("a", { :minimum => 4 } )
+    expect(page).to have_tag("a", { :minimum => 3 } )
   end
 end
 
@@ -79,7 +79,7 @@ describe "/rock" do
   it "has a link to '/rock' with the text 'Play Rock'", :points => 1 do
     visit "/rock"
 
-    expect(page).to have_link("Play Rock", { :href => "/rock" } )
+    expect(page).to have_tag("a", :text => /Play Rock/i, :with => { :href => "/rock" } )
   end
 end
 
@@ -87,7 +87,7 @@ describe "/rock" do
   it "has a link to '/paper' with the text 'Play Paper'", :points => 1 do
     visit "/rock"
 
-    expect(page).to have_link("Play Paper", { :href => "/paper" } )
+    expect(page).to have_tag("a", :text => /Play Paper/i, :with => { :href => "/paper" } )
   end
 end
 
@@ -95,7 +95,7 @@ describe "/rock" do
   it "has a link to '/scissors' with the text 'Play Scissors'", :points => 1 do
     visit "/rock"
 
-    expect(page).to have_link("Play Scissors", { :href => "/scissors" } )
+    expect(page).to have_tag("a", :text => /Play Scissors/i, :with => { :href => "/scissors" } )
   end
 end
 
@@ -103,7 +103,7 @@ describe "/rock" do
   it "has a link to '/' with the text 'Rules'", :points => 1 do
     visit "/rock"
 
-    expect(page).to have_link("Rules", { :href => "/" } )
+    expect(page).to have_tag("a", :text => /Rules/i,:with => { :href => "/" } )
   end
 end
 
@@ -113,13 +113,13 @@ describe "/rock" do
 
     expect(page).to have_tag("body") do
       with_tag("div") do
-        with_tag("a", :with => { :href => "/rock" }, :seen => "Play Rock")
+        with_tag("a", :with => { :href => "/rock" }, :text => /Play Rock/i)
       end
       with_tag("div") do
-         with_tag("a", :with => { :href => "/paper" }, :seen => "Play Paper")
+         with_tag("a", :with => { :href => "/paper" }, :text => /Play Paper/i)
       end
       with_tag("div") do
-         with_tag("a", :with => { :href => "/scissors" }, :seen => "Play Scissors")
+         with_tag("a", :with => { :href => "/scissors" }, :text => /Play Scissors/i)
       end
     end
   end
@@ -155,7 +155,7 @@ describe "/rock" do
     
     expect(page).to have_tag("html") do
       with_tag("body") do
-        with_tag("h2", { :seen => "We played rock!" } )
+        with_tag("h2", { :text => /We played rock/i } )
       end
     end
   end
@@ -167,7 +167,7 @@ describe "/rock" do
     
     expect(page).to have_tag("html") do
       with_tag("body") do
-        with_tag("h2", { :seen => "They played paper!" } )
+        with_tag("h2", { :text => /They played paper/i } )
       end
     end
   end
@@ -179,7 +179,7 @@ describe "/rock" do
     
     expect(page).to have_tag("html") do
       with_tag("body") do
-        with_tag("h2", { :seen => "We lost!" } )
+        with_tag("h2", { :text => /We lost/i } )
       end
     end
   end
@@ -190,40 +190,43 @@ describe "/rock" do
     visit "/rock"
     
     first_line = page.html.strip.downcase.first(15)
-    doctype = "<!doctype html>"
-    expect(first_line.include?(doctype) ).to be true
+    
+    expect(first_line).to match(/<!doctype html>/i),
+      "Expected the first line of the HTML file to start with a doctype declaration. Found: #{first_line}."
     
     expect(page).to have_tag("html") do
       with_tag("head") do
-        with_tag("title", :seen => "You played rock!" )
+        with_tag("title", :text => /You played rock/i )
         with_tag("meta", :with => { :charset => "utf-8" } )
       end
       
       with_tag("body") do
         with_tag("div:first-child") do
           with_tag("a", :count => 1 )
-          # with_tag("a", :with => { :href => "/rock" }, :seen => "Play Rock")
-          p a_tag = find("div:first-child a")
-          p find("div:first-child a")[:href].match(/(\/rock\.html|\/rock$)/)
-
+          # with_tag("a", :with => { :href => "/rock" }, :text => /Play Rock")
+          play_rock_link = find("div:first-child a")
+          href = play_rock_link[:href]
+          p find("div:first-child a")[:href].match(/(\/rock\.html$|\/rock$)/)
+          p !!(href.match(/(\/rock\.html$|\/rock$)/))
           # href should be /rock OR /rock.html
-          expect(a_tag[:href]).to match( /(\/rock\.html|\/rock$)/ )
+          expect(href).to match( /(\/rock\.html$|\/rock$)/ ),
+            "Expected first link href to be either '/rock' or '/rock.html' but found #{href} instead."
           
         end
         with_tag("div:nth-child(2)") do
           with_tag("a", :count => 1 )
-          with_tag("a", :with => { :href => "/paper" }, :seen => "Play Paper")
+          with_tag("a", :with => { :href => "/paper" }, :text => /Play Paper/i)
         end
         with_tag("div:nth-child(3)") do
           with_tag("a", :count => 1 )
-          with_tag("a", :with => { :href => "/scissors" }, :seen => "Play Scissors")
+          with_tag("a", :with => { :href => "/scissors" }, :text => /Play Scissors/i)
         end
         
-        with_tag("div:nth-child(3) + h2", :seen => "We played rock!")
-        with_tag("h2:nth-of-type(2)", :seen => "They played paper!")
-        with_tag("h2:nth-of-type(3)", :seen => "We lost!")
+        with_tag("div:nth-child(3) + h2", :text => /We played rock/i)
+        with_tag("h2:nth-of-type(2)", :text => /They played paper/i)
+        with_tag("h2:nth-of-type(3)", :text => /We lost/i)
         
-        with_tag("h2:nth-of-type(3) + a", :with => { :href => "/"}, :seen => "Rules")
+        with_tag("h2:nth-of-type(3) + a", :with => { :href => "/"}, :text => /Rules/i)
 
       end
     end
