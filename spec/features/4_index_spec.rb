@@ -395,7 +395,7 @@ describe "The home page" do
 end
 
 describe "The home page" do
-  it "has the 3rd table column in the 2nd row with text 'Scissorsr' ", :points => 1 do
+  it "has the 3rd table column in the 2nd row with text 'Scissors' ", :points => 1 do
     visit "/"
 
     expect(page).to have_tag("table", :with => { :border => 1 } ) do

@@ -356,7 +356,7 @@ The home page has the 1st table column in the 2nd row with text 'Rock'
 
 The home page has the 2nd table column in the 2nd row with text 'Paper' 
 
-The home page has the 3rd table column in the 2nd row with text 'Scissorsr' 
+The home page has the 3rd table column in the 2nd row with text 'Scissors' 
 
 The home page has the 1st table column in the 3rd row span 3 rows & have text 'If we play...' 
 
