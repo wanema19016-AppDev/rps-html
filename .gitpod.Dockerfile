@@ -4,6 +4,7 @@ USER gitpod
 
 RUN /bin/bash -l -c "gem install htmlbeautifier"
 RUN /bin/bash -l -c "gem install rufo"
+RUN /bin/bash -l -c "gem install bundler:2.1.4"
 
 RUN /bin/bash -l -c "curl https://cli-assets.heroku.com/install.sh | sh"
 
