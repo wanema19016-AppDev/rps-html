@@ -213,7 +213,7 @@ describe "/rock" do
   end
 end
 
-describe "/rock", js: true do
+describe "/rock" do
   it "has all elements in the right order", :points => 1 do
     visit "/rock"
     
