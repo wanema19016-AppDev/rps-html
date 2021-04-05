@@ -746,7 +746,7 @@ describe "The home page" do
     kistune_ken = /Kitsune-ken was a popular Japanese rock–paper–scissors variant/i
     kistune_ken_image = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Kitsune-ken_%28%E7%8B%90%E6%8B%B3%29%2C_Japanese_rock-paper-scissors_variant%2C_from_the_Genyoku_sui_bento_%281774%29.jpg/640px-Kitsune-ken_%28%E7%8B%90%E6%8B%B3%29%2C_Japanese_rock-paper-scissors_variant%2C_from_the_Genyoku_sui_bento_%281774%29.jpg"
     
-    kistune_ken_element = find("img[src*='#{kistune_ken_image}'")
+    # kistune_ken_element = find("img[src*='#{kistune_ken_image}'")
     
     # expect(kistune_ken_element).to be_below(a_chart_showing_paragraph)
     
@@ -757,7 +757,7 @@ describe "The home page" do
     mushi_ken = /Mushi-ken, the earliest Japanese sansukumi-ken game \(1809\). From left to right: slug \(namekuji\), frog \(kawazu\) and snake \(hebi\)/i
     mushi_ken_image = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Mushi-ken_%28%E8%99%AB%E6%8B%B3%29%2C_Japanese_rock-paper-scissors_variant%2C_from_the_Kensarae_sumai_zue_%281809%29.jpg/640px-Mushi-ken_%28%E8%99%AB%E6%8B%B3%29%2C_Japanese_rock-paper-scissors_variant%2C_from_the_Kensarae_sumai_zue_%281809%29.jpg"
     
-    mushi_ken_element = find("img[src*='#{mushi_ken_image}'")
+    # mushi_ken_element = find("img[src*='#{mushi_ken_image}'")
     
     # expect(mushi_ken_element).to be_below(kistune_ken_text)
 
